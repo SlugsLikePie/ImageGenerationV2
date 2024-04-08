@@ -18,13 +18,13 @@ public class NoiseImage extends GeneratedImage {
 
     public NoiseImage(String path) throws Exception {
         super(path);
-        newNoiseImage();
     }
 
     public void newNoiseImage() throws Exception {
         for (int x = 0; x < img.getWidth(); x++)
         for (int y = 0; y < img.getHeight(); y++) {
-            img.setRGB(x, y, new Color(
+            img.setRGB(
+                x, y, new Color(
                 (int)(Math.random() * 256),
                 (int)(Math.random() * 256),
                 (int)(Math.random() * 256)

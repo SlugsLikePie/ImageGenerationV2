@@ -29,7 +29,7 @@ public class GeneratedImage {
     }
     
     // Blurs
-    public int rectangularAreaColorAverage(int x, int y, int xSize, int ySize, String color) {
+    private int rectangularAreaColorAverage(int x, int y, int xSize, int ySize, String color) {
         int sum = 0;
         int numPx = 0;
         for (int xI = x - xSize; xI <= x + xSize; xI++)
@@ -66,7 +66,8 @@ public class GeneratedImage {
         for (int i = 0; i < iterations; i++)
         for (int x = 0; x < img.getWidth(); x++)
         for (int y = 0; y < img.getHeight(); y++) {
-            img.setRGB(x, y, new Color(
+            img.setRGB(
+                x, y, new Color(
                 rectangularAreaColorAverage(x, y, xSize, ySize, "Red"), 
                 rectangularAreaColorAverage(x, y, xSize, ySize, "Green"), 
                 rectangularAreaColorAverage(x, y, xSize, ySize, "Blue")
