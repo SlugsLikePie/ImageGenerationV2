@@ -29,7 +29,7 @@ public class GeneratedImage {
     }
     
     // Blurs
-    private int rectangularAreaColorAverage(int x, int y, int xSize, int ySize, String color) {
+    private int rectangularAreaColorAverage(int x, int y, int xSize, int ySize, int color) {
         int sum = 0;
         int numPx = 0;
         for (int xI = x - xSize; xI <= x + xSize; xI++)
@@ -37,15 +37,15 @@ public class GeneratedImage {
             if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
                 Color col = new Color(img.getRGB(xI, yI));
                 switch (color) {
-                    case "Red":
+                    case 1:
                         sum += col.getRed();
                         break;
 
-                    case "Green":
+                    case 2:
                         sum += col.getGreen();
                         break;
 
-                    case "Blue":
+                    case 3:
                         sum += col.getBlue();
                         break;
                 
@@ -56,10 +56,7 @@ public class GeneratedImage {
                 numPx++;
             }
         }
-
-        int average = sum / numPx;
-
-        return average;
+        return sum / numPx;
     }
 
     public void rectangularAreaColorBlur(int iterations, int xSize, int ySize, Boolean outputIndividual) throws Exception {
@@ -68,9 +65,9 @@ public class GeneratedImage {
         for (int y = 0; y < img.getHeight(); y++) {
             img.setRGB(
                 x, y, new Color(
-                rectangularAreaColorAverage(x, y, xSize, ySize, "Red"), 
-                rectangularAreaColorAverage(x, y, xSize, ySize, "Green"), 
-                rectangularAreaColorAverage(x, y, xSize, ySize, "Blue")
+                rectangularAreaColorAverage(x, y, xSize, ySize, 1), 
+                rectangularAreaColorAverage(x, y, xSize, ySize, 2), 
+                rectangularAreaColorAverage(x, y, xSize, ySize, 3)
                 ).getRGB()
             );
         }

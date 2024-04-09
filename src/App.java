@@ -2,8 +2,9 @@
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MathImage img = new MathImage("FeelsVerySovietTrain.jpg");
-        img.rectangularAreaColorBlur(5 , 5, 1, true);
-        img.sineColor(1, true);
+        MathImage img = new MathImage("RomanianTrain.jpg");
+        //img.rectangularAreaColorBlur(1 , 5, 5, false);
+        img.cosColor(1, false);
+        img.sinColor(1, false);
     }
 }
