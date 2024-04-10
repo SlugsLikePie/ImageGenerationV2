@@ -28,7 +28,7 @@ public class GeneratedImage {
         }
     }
     
-    // Blurs
+    // Pixel Average
     private int rectangularAreaColorAverage(int x, int y, int xSize, int ySize, int color) {
         int sum = 0;
         int numPx = 0;
@@ -59,6 +59,7 @@ public class GeneratedImage {
         return sum / numPx;
     }
 
+    // Blur
     public void rectangularAreaColorBlur(int iterations, int xSize, int ySize, Boolean outputIndividual) throws Exception {
         for (int i = 0; i < iterations; i++)
         for (int x = 0; x < img.getWidth(); x++)
@@ -70,6 +71,62 @@ public class GeneratedImage {
                 rectangularAreaColorAverage(x, y, xSize, ySize, 3)
                 ).getRGB()
             );
+        }
+
+        if (outputIndividual) {
+            writeFile("BlurredImage");
+        } else {
+            writeFile();
+        }
+    }
+
+    // Mosaic calculate
+    private int mosaicCalculate(int x, int y, int xSize, int ySize, int color) {
+        int sum = 0;
+        int numPx = 0;
+        for (int xI = x - xSize; xI <= x + xSize; xI += xSize)
+        for (int yI = y - ySize; yI <= y + ySize; yI += ySize) {
+            if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
+                Color col = new Color(img.getRGB(xI, yI));
+                switch (color) {
+                    case 1:
+                        sum += col.getRed();
+                        break;
+
+                    case 2:
+                        sum += col.getGreen();
+                        break;
+
+                    case 3:
+                        sum += col.getBlue();
+                        break;
+                
+                    default:
+                        sum += col.getAlpha();
+                        break;
+                }
+                numPx++;
+            }
+        }
+        return sum / numPx;
+    }
+
+    // Mosaic
+    public void mosaic(int iterations, int xSize, int ySize, Boolean outputIndividual) throws Exception {
+        for (int i = 0; i < iterations; i++)
+        for (int x = 0; x < img.getWidth(); x++)
+        for (int y = 0; y < img.getHeight(); y++) {
+            Color o = new Color(
+                mosaicCalculate(x, y, xSize, ySize, 1), 
+                mosaicCalculate(x, y, xSize, ySize, 2), 
+                mosaicCalculate(x, y, xSize, ySize, 3)
+                );
+            for (int xI = x - xSize; xI <= x + xSize; xI++)
+            for (int yI = y - ySize; yI <= y + ySize; yI++) {
+                if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
+                    img.setRGB(x, y, o.getRGB());
+                }
+            }
         }
 
         if (outputIndividual) {
