@@ -18,8 +18,8 @@ public class MathImage extends NoiseImage {
 
     public void sinColor(int iterations, Boolean outputIndividual) throws Exception {
         for (int i = 0; i < iterations; i++)
-        for (int x = 0; x < img.getWidth(); x++)
-        for (int y = 0; y < img.getHeight(); y++) {
+        for (int x = 0; x < img.getWidth(); x += 2)
+        for (int y = 0; y < img.getHeight(); y += 2) {
             Color o = new Color(img.getRGB(x, y));
 
             img.setRGB(

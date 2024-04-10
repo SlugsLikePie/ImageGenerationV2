@@ -34,7 +34,7 @@ public class GeneratedImage {
         int numPx = 0;
         for (int xI = x - xSize; xI <= x + xSize; xI++)
         for (int yI = y - ySize; yI <= y + ySize; yI++) {
-            if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
+            if (xI >= 0 && xI < img.getWidth() && yI >= 0 && yI < img.getHeight()) {
                 Color col = new Color(img.getRGB(xI, yI));
                 switch (color) {
                     case 1:
@@ -84,8 +84,8 @@ public class GeneratedImage {
     private int mosaicCalculate(int x, int y, int xSize, int ySize, int color) {
         int sum = 0;
         int numPx = 0;
-        for (int xI = x - xSize; xI <= x + xSize; xI += xSize)
-        for (int yI = y - ySize; yI <= y + ySize; yI += ySize) {
+        for (int xI = x - xSize; xI <= x + xSize; xI++)
+        for (int yI = y - ySize; yI <= y + ySize; yI++) {
             if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
                 Color col = new Color(img.getRGB(xI, yI));
                 switch (color) {
@@ -106,16 +106,18 @@ public class GeneratedImage {
                         break;
                 }
                 numPx++;
+                c++;
             }
         }
         return sum / numPx;
     }
 
+    public static int c = 0;
     // Mosaic
     public void mosaic(int iterations, int xSize, int ySize, Boolean outputIndividual) throws Exception {
         for (int i = 0; i < iterations; i++)
-        for (int x = 0; x < img.getWidth(); x++)
-        for (int y = 0; y < img.getHeight(); y++) {
+        for (int x = xSize; x < img.getWidth(); x += 2 * xSize + 1)
+        for (int y = ySize; y < img.getHeight(); y += 2 * ySize + 1) {
             Color o = new Color(
                 mosaicCalculate(x, y, xSize, ySize, 1), 
                 mosaicCalculate(x, y, xSize, ySize, 2), 
@@ -123,14 +125,16 @@ public class GeneratedImage {
                 );
             for (int xI = x - xSize; xI <= x + xSize; xI++)
             for (int yI = y - ySize; yI <= y + ySize; yI++) {
-                if (xI > 0 && xI < img.getWidth() && yI > 0 && yI < img.getHeight()) {
-                    img.setRGB(x, y, o.getRGB());
+                if (xI >= 0 && xI < img.getWidth() && yI >= 0 && yI < img.getHeight()) {
+                    img.setRGB(xI, yI, o.getRGB());
+                    c++;
                 }
             }
         }
+        System.out.println(c);
 
         if (outputIndividual) {
-            writeFile("BlurredImage");
+            writeFile("MosaicImage");
         } else {
             writeFile();
         }
